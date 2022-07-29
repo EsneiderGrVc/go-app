@@ -1,0 +1,24 @@
+version: "3.7"
+
+services:
+  api:
+    command: bash -c "go build && ./go_server"
+    # command: bash -c "/go/bin/CompileDaemon -command="./go_server""
+    build: .
+    volumes:
+        - ./api:/usr/src/app
+    restart: always
+    env_file:
+      - 'environments/development.env'
+    ports:
+      - 80:80
+
+  database:
+    image: postgres:12.7
+    restart: always
+    ports:
+      - "5434:5432"
+    env_file:
+      - 'environments/development.env'
+    links:
+      - api
