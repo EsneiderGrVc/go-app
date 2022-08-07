@@ -1,0 +1,202 @@
+openapi: 3.0.3
+info:
+  title: KiwiBot API
+  version: 1.0.0
+servers:
+- url: https://localhost/
+
+paths:
+  #/DELIVERIES
+  #GET
+  /deliveries:
+    get:
+      tags:
+        - "deliveries"
+      responses:
+        200:
+          description: (OK) The delivery has been obtained succesfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/allDeliveries'
+        400:
+          $ref: '#/components/responses/BadRequest'
+
+    #/POST
+    post:
+      tags:
+      - "deliveries"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#components/schemas/deliveriesPost'
+        required: true
+      responses:
+        200:
+          description: (OK) The delivery has been stored succesfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/deliveries'
+        400:
+          $ref: '#/components/responses/BadRequest'
+
+  /deliveries/{id}:
+    get:
+      tags:
+        - "deliveries"
+      responses:
+        200:
+          description: (OK) The delivery has been obtained succesfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/deliveries'
+        400:
+          $ref: '#/components/responses/BadRequest'
+    parameters:
+      - name: id
+        in: path
+        description: ID of delivery to use
+        required: true
+        schema:
+          type: string
+        style: simple
+
+      
+
+components:
+  responses:
+    BadRequest:
+      description: (Bad Request)
+  schemas:
+    allDeliveries:
+      type: array
+      items:
+        type: object
+        properties:
+          id:
+            type: string
+          creation_date:
+            type: string
+            format: date
+          state:
+            type: string
+            enum: [
+              "pending",
+              "assigned",
+              in_transit,
+              delivered
+            ]
+          pickup:
+            type: object
+            properties:
+              pickup_lat:
+                type: number
+                format: float64
+              pickup_lon:
+                type: number
+                format: float64
+          dropoff:
+            type: object
+            properties:
+              dropoff_lat:
+                type: number
+                format: float64
+              dropoff_lon:
+                type: number
+                format: float64
+          zone_id:
+            type: string
+
+    deliveries:
+      type: object
+      properties:
+        id:
+          type: string
+        creation_date:
+          type: string
+          format: date
+        state:
+          type: string
+          enum: [
+            "pending",
+            "assigned",
+            in_transit,
+            delivered
+          ]
+        pickup:
+          type: object
+          properties:
+            pickup_lat:
+              type: number
+              format: float64
+            pickup_lon:
+              type: number
+              format: float64
+        dropoff:
+          type: object
+          properties:
+            dropoff_lat:
+              type: number
+              format: float64
+            dropoff_lon:
+              type: number
+              format: float64
+        zone_id:
+          type: string
+
+    deliveriesPost:
+      type: object
+      properties:
+        state:
+          type: string
+          enum: [
+            "pending",
+            "assigned",
+            in_transit,
+            delivered
+          ]
+        pickup:
+          type: object
+          properties:
+            pickup_lat:
+              type: number
+              format: float64
+            pickup_lon:
+              type: number
+              format: float64
+        dropoff:
+          type: object
+          properties:
+            dropoff_lat:
+              type: number
+              format: float64
+            dropoff_lon:
+              type: number
+              format: float64
+        zone_id:
+          type: string
+
+    bots:
+      type: object
+      properties:
+        id:
+          type: string
+        status:
+          type: string
+          enum: [
+            "available", "busy", "reserved"
+          ]
+        location:
+          type: object
+          properties:
+            lat:
+              type: number
+              format: float64
+            lon:
+              type: number
+              format: float64
+        zone_id:
+          type: string
