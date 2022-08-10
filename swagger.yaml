@@ -1,6 +1,6 @@
 openapi: 3.0.3
 info:
-  title: KiwiBot API
+  title:  API
   version: 1.0.0
 servers:
 - url: https://localhost/
@@ -10,27 +10,29 @@ paths:
   #GET
   /deliveries:
     get:
+      description: Get all the documents inside of deliveries collection.
       tags:
-        - "deliveries"
+        - Deliveries
       responses:
         200:
           description: (OK) The delivery has been obtained succesfully.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/allDeliveries'
+                $ref: '#/components/schemas/deliveries'
         400:
           $ref: '#/components/responses/BadRequest'
 
     #/POST
     post:
+      description: Create a new delivery.
       tags:
-      - "deliveries"
+      - Deliveries
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#components/schemas/deliveriesPost'
+              $ref: '#/components/schemas/deliveryPost'
         required: true
       responses:
         200:
@@ -38,21 +40,22 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/deliveries'
+                $ref: '#/components/schemas/delivery'
         400:
           $ref: '#/components/responses/BadRequest'
 
   /deliveries/{id}:
     get:
+      description: Get a specific document by id.
       tags:
-        - "deliveries"
+        - Deliveries
       responses:
         200:
           description: (OK) The delivery has been obtained succesfully.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/deliveries'
+                $ref: '#/components/schemas/delivery'
         400:
           $ref: '#/components/responses/BadRequest'
     parameters:
@@ -64,6 +67,40 @@ paths:
           type: string
         style: simple
 
+  /bots:
+    get:
+      description: Get all the documents inside of bots collection ordered by zone.
+      tags:
+        - Bots
+      responses:
+        200:
+          description: (OK) Bot record has been obtained succesfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/bots'
+        400:
+          $ref: '#/components/responses/BadRequest'
+
+    post:
+      description: Create a new bot.
+      tags:
+        - Bots
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/botPost'
+      responses:
+        200:
+          description: (OK) The bot has been stored succesfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/bot'
+        400:
+          $ref: '#/components/responses/BadRequest'
+
       
 
 components:
@@ -71,7 +108,7 @@ components:
     BadRequest:
       description: (Bad Request)
   schemas:
-    allDeliveries:
+    deliveries:
       type: array
       items:
         type: object
@@ -110,7 +147,7 @@ components:
           zone_id:
             type: string
 
-    deliveries:
+    delivery:
       type: object
       properties:
         id:
@@ -147,7 +184,7 @@ components:
         zone_id:
           type: string
 
-    deliveriesPost:
+    deliveryPost:
       type: object
       properties:
         state:
@@ -180,10 +217,54 @@ components:
           type: string
 
     bots:
+      type: array
+      items:
+        type: object
+        properties:
+          id:
+            type: string
+          status:
+            type: string
+            enum: [
+              "available", "busy", "reserved"
+            ]
+          location:
+            type: object
+            properties:
+              lat:
+                type: number
+                format: float64
+              lon:
+                type: number
+                format: float64
+          zone_id:
+            type: string
+
+    bot:
       type: object
       properties:
         id:
           type: string
+        status:
+          type: string
+          enum: [
+            "available", "busy", "reserved"
+          ]
+        location:
+          type: object
+          properties:
+            lat:
+              type: number
+              format: float64
+            lon:
+              type: number
+              format: float64
+        zone_id:
+          type: string
+
+    botPost:
+      type: object
+      properties:
         status:
           type: string
           enum: [
