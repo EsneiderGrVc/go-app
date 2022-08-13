@@ -38,6 +38,10 @@ func (*controller) GetDelivery(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(result)
 }
 
+// @Description  Get all the documents inside of deliveries collection.
+// @Tags         deliveries
+// @Produce      json
+// @Router       /deliveries [get]
 func (*controller) GetAllDeliveries(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	posts, err := deliveryService.GetAllDeliveries()

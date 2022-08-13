@@ -7,4 +7,5 @@ type Router interface {
 	POST(uri string, f func(w http.ResponseWriter, r *http.Request))
 	DELETE(uri string, f func(w http.ResponseWriter, r *http.Request))
 	SERVE(port string)
+	SWAGGER(uri string)
 }

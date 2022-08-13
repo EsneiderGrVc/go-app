@@ -5,7 +5,8 @@ import (
 	"net/http"
 
 	"github.com/EsneiderGrVc/go_server/controller"
-	"github.com/EsneiderGrVc/go_server/dbconfig"
+	"github.com/EsneiderGrVc/go_server/docs"
+	_ "github.com/EsneiderGrVc/go_server/docs"
 	router "github.com/EsneiderGrVc/go_server/http"
 	"github.com/EsneiderGrVc/go_server/repository"
 	"github.com/EsneiderGrVc/go_server/services"
@@ -26,7 +27,14 @@ var (
 
 func main() {
 	const port string = ":80"
-	dbconfig.NewDbConfig().Config()
+	// dbconfig.NewDbConfig().Config()
+
+	docs.SwaggerInfo.Title = "KiwiBot API"
+	docs.SwaggerInfo.Description = "Create deliveries and assign them to bots."
+	docs.SwaggerInfo.Version = "1.0"
+	docs.SwaggerInfo.Host = "localhost"
+	docs.SwaggerInfo.BasePath = "/"
+	docs.SwaggerInfo.Schemes = []string{"http"}
 
 	httpRouter.GET("/", func(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintf(w, "Up and Running...")
@@ -38,6 +46,8 @@ func main() {
 
 	httpRouter.POST("/bots", botController.CreateBot)
 	httpRouter.GET("/bots", botController.GetBotsOrderByZone)
+
+	httpRouter.SWAGGER("/swagger/")
 
 	httpRouter.SERVE(port)
 }

@@ -1,0 +1,12 @@
+info:
+  contact: {}
+paths:
+  /deliveries:
+    get:
+      description: Get all the documents inside of deliveries collection.
+      produces:
+      - application/json
+      responses: {}
+      tags:
+      - deliveries
+swagger: "2.0"
