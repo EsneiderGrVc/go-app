@@ -1,3 +1,4 @@
+
 # Go App
 
 This application has a docker-compose configuration that allows install and execute it with just a command
@@ -31,57 +32,10 @@ Make sure you do not have any services listening on ports 80: and 5434: on your 
 Stops the execution of other containers, if any.
 
 ## Usage
+**Go to** [Swagger Documentation](http://localhost/swagger/index.html) **and try it out.**
 
-|Endpoint|Method|Description               |
-|---------------------|----------|-----------------------------|
-|`localhost`|GET|Does Nothing.|
-|`localhost/deliveries`|GET|Get all the documents inside of **deliveries** collection.|
-|`localhost/deliveries/{id}: string`| GET | Get a specific document by its id.|
-|`localhost/deliveries`|POST|Create a new delivery with [this structure](#create-delivery-structure).|
-|`localhost/bots`|GET| Get all the documents inside of **bots** collection ordered by zone.|
-|`localhost/bots`|POST|Create a new bot with [this structure](#create-bot-structure).|
-
-### Create Delivery structure
-```json
-{
-    "id": "342",
-    "creation_date": "2022-07-29T10:52:35.401626Z",
-    "pickup": {
-        "pickup_lat": 38.540644,
-        "pickup_lon": 141.064362
-    },
-    "state": "assigned",
-    "dropoff": {
-        "dropoff_lat": 18.913308,
-        "dropoff_lon": 72.822865
-    },
-    "zone_id": "004"
-}
-```
-> try: 
-```bash
-curl -X POST localhost/deliveries -H "Content-Type: application/json" -d '{"id":"654","creation_date":"2022-07-29T10:52:35.401626Z","pickup":{"pickup_lat":38.540644,"pickup_lon":141.064362},"state":"assigned","dropoff":{"dropoff_lat":18.913308,"dropoff_lon":72.822865},"zone_id":"194"}'
-```
-
-### Create Bot structure
-```json
-{
-    "id": "10",
-    "status": "available",
-    "location": {
-        "lat": 23.092837,
-        "lon": -23.938493
-    },
-    "zone_id": "13"
-}
-```
-> try: 
-```bash
-curl -X POST localhost/bots -H "Content-Type: application/json" -d '{"id":"432","status":"available","location":{"lat":23.092837,"lon":-23.938493},"zone_id":"13"}'
-```
-
-### What is missing?
-- Swagger Documentation
+## What is missing?
+- Swagger Documentation - _In progress_
 - Validate object data types before calling services.
 - Unit testing.
 - Implementing an ORM.
