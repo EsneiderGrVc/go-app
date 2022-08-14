@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"net/http"
 
 	"github.com/EsneiderGrVc/go_server/controller"
@@ -37,7 +36,7 @@ func main() {
 	docs.SwaggerInfo.Schemes = []string{"http"}
 
 	httpRouter.GET("/", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprintf(w, "Up and Running...")
+		http.Redirect(w, r, "/swagger/index.html", 302)
 	})
 
 	httpRouter.GET("/deliveries", deliverController.GetAllDeliveries)

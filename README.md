@@ -20,18 +20,20 @@ brew install docker-compose
 ```
 
 ## Install and Execution
+After clone git repository, add Firestore credentials in `./api/serviceAccount.json` file
 ```bash
 git clone https://github.com/EsneiderGrVc/go-app.git
 cd go-app/
-docker-compose up
+docker-compose up --build
 ```
-After clone git repository, add Firestore credentials in `./api/serviceAccount.json` file
 > **Note**: Before running `docker-compose up`
 You must have docker and docker compose installed.
 Make sure you do not have any services listening on ports 80: and 5434: on your local machine.
 Stops the execution of other containers, if any.
 
 ## Usage
+Visit http://localhost/ or
+
 **Go to** [Swagger Documentation](http://localhost/swagger/index.html) **and try it out.**
 
 ## What is missing?
