@@ -26,6 +26,13 @@ func NewDeliveryController(service services.DeliveryService) DeliveryController 
 	return &controller{}
 }
 
+// @Description Get a specific document by id.
+// @Tags deliveries
+// @Produce json
+// @Param id path string true "delivery id"
+// @Router /deliveries/{id} [get]
+// @Success 200 {object} entity.Delivery
+// @Failure 400
 func (*controller) GetDelivery(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	vars := mux.Vars(r)
@@ -42,6 +49,8 @@ func (*controller) GetDelivery(w http.ResponseWriter, r *http.Request) {
 // @Tags         deliveries
 // @Produce      json
 // @Router       /deliveries [get]
+// @Success 200 {array} entity.Delivery
+// @Failure 400
 func (*controller) GetAllDeliveries(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	posts, err := deliveryService.GetAllDeliveries()
@@ -59,6 +68,14 @@ func (*controller) GetAllDeliveries(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(posts)
 }
 
+// @Description Create a new delivery
+// @Tags deliveries
+// @Produce json
+// @Accept json
+// @Param delivery body entity.PostDelivery true "delivery"
+// @Router /deliveries [post]
+// @Success 200 {object} entity.Delivery
+// @Failure 400
 func (*controller) CreateDelivery(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	var delivery entity.Delivery

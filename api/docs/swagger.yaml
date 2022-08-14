@@ -1,12 +1,177 @@
+definitions:
+  entity.Bot:
+    properties:
+      id:
+        type: string
+      location:
+        properties:
+          lat:
+            type: number
+          lon:
+            type: number
+        type: object
+      status:
+        type: string
+      zone_id:
+        type: string
+    type: object
+  entity.Delivery:
+    properties:
+      creation_date:
+        type: string
+      dropoff:
+        properties:
+          dropoff_lat:
+            type: number
+          dropoff_lon:
+            type: number
+        type: object
+      id:
+        type: string
+      pickup:
+        properties:
+          pickup_lat:
+            type: number
+          pickup_lon:
+            type: number
+        type: object
+      state:
+        type: string
+      zone_id:
+        type: string
+    type: object
+  entity.PostBot:
+    properties:
+      location:
+        properties:
+          lat:
+            type: number
+          lon:
+            type: number
+        type: object
+      status:
+        type: string
+      zone_id:
+        type: string
+    type: object
+  entity.PostDelivery:
+    properties:
+      dropoff:
+        properties:
+          dropoff_lat:
+            type: number
+          dropoff_lon:
+            type: number
+        type: object
+      pickup:
+        properties:
+          pickup_lat:
+            type: number
+          pickup_lon:
+            type: number
+        type: object
+      state:
+        type: string
+      zone_id:
+        type: string
+    type: object
 info:
   contact: {}
 paths:
+  /bots:
+    get:
+      description: Get all bots ordered by Zone.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/entity.Bot'
+            type: array
+        "400":
+          description: Bad Request
+      tags:
+      - bots
+    post:
+      consumes:
+      - application/json
+      description: Create a new bot.
+      parameters:
+      - description: bot
+        in: body
+        name: bot
+        required: true
+        schema:
+          $ref: '#/definitions/entity.PostBot'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/entity.Bot'
+        "400":
+          description: Bad Request
+      tags:
+      - bots
   /deliveries:
     get:
       description: Get all the documents inside of deliveries collection.
       produces:
       - application/json
-      responses: {}
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/entity.Delivery'
+            type: array
+        "400":
+          description: Bad Request
+      tags:
+      - deliveries
+    post:
+      consumes:
+      - application/json
+      description: Create a new delivery
+      parameters:
+      - description: delivery
+        in: body
+        name: delivery
+        required: true
+        schema:
+          $ref: '#/definitions/entity.PostDelivery'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/entity.Delivery'
+        "400":
+          description: Bad Request
+      tags:
+      - deliveries
+  /deliveries/{id}:
+    get:
+      description: Get a specific document by id.
+      parameters:
+      - description: delivery id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/entity.Delivery'
+        "400":
+          description: Bad Request
       tags:
       - deliveries
 swagger: "2.0"

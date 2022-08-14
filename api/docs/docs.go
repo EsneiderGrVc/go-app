@@ -16,6 +16,65 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/bots": {
+            "get": {
+                "description": "Get all bots ordered by Zone.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "bots"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/entity.Bot"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    }
+                }
+            },
+            "post": {
+                "description": "Create a new bot.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "bots"
+                ],
+                "parameters": [
+                    {
+                        "description": "bot",
+                        "name": "bot",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/entity.PostBot"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/entity.Bot"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    }
+                }
+            }
+        },
         "/deliveries": {
             "get": {
                 "description": "Get all the documents inside of deliveries collection.",
@@ -25,7 +84,206 @@ const docTemplate = `{
                 "tags": [
                     "deliveries"
                 ],
-                "responses": {}
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/entity.Delivery"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    }
+                }
+            },
+            "post": {
+                "description": "Create a new delivery",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "deliveries"
+                ],
+                "parameters": [
+                    {
+                        "description": "delivery",
+                        "name": "delivery",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/entity.PostDelivery"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/entity.Delivery"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    }
+                }
+            }
+        },
+        "/deliveries/{id}": {
+            "get": {
+                "description": "Get a specific document by id.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "deliveries"
+                ],
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "delivery id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/entity.Delivery"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "entity.Bot": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "location": {
+                    "type": "object",
+                    "properties": {
+                        "lat": {
+                            "type": "number"
+                        },
+                        "lon": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "status": {
+                    "type": "string"
+                },
+                "zone_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "entity.Delivery": {
+            "type": "object",
+            "properties": {
+                "creation_date": {
+                    "type": "string"
+                },
+                "dropoff": {
+                    "type": "object",
+                    "properties": {
+                        "dropoff_lat": {
+                            "type": "number"
+                        },
+                        "dropoff_lon": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "id": {
+                    "type": "string"
+                },
+                "pickup": {
+                    "type": "object",
+                    "properties": {
+                        "pickup_lat": {
+                            "type": "number"
+                        },
+                        "pickup_lon": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "state": {
+                    "type": "string"
+                },
+                "zone_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "entity.PostBot": {
+            "type": "object",
+            "properties": {
+                "location": {
+                    "type": "object",
+                    "properties": {
+                        "lat": {
+                            "type": "number"
+                        },
+                        "lon": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "status": {
+                    "type": "string"
+                },
+                "zone_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "entity.PostDelivery": {
+            "type": "object",
+            "properties": {
+                "dropoff": {
+                    "type": "object",
+                    "properties": {
+                        "dropoff_lat": {
+                            "type": "number"
+                        },
+                        "dropoff_lon": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "pickup": {
+                    "type": "object",
+                    "properties": {
+                        "pickup_lat": {
+                            "type": "number"
+                        },
+                        "pickup_lon": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "state": {
+                    "type": "string"
+                },
+                "zone_id": {
+                    "type": "string"
+                }
             }
         }
     }
