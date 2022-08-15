@@ -37,7 +37,7 @@ Visit http://localhost/ or
 **Go to** [Swagger Documentation](http://localhost/swagger/index.html) **and try it out.**
 
 ## What is missing?
-- Swagger Documentation - _In progress_
+- Swagger Documentation - ~~In progress~~ **Done**
 - Validate object data types before calling services.
 - Unit testing.
 - Implementing an ORM.
