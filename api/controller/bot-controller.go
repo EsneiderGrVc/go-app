@@ -51,10 +51,10 @@ func (*botController) CreateBot(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(result)
 }
 
-// @Description Get all bots ordered by Zone.
-// @Tags bots
-// @Produce json
-// @Router /bots [get]
+// @Description  Get all bots ordered by Zone.
+// @Tags         bots
+// @Produce      json
+// @Router       /bots [get]
 // @Success 200 {array} entity.Bot
 // @Failure 400
 func (*botController) GetBotsOrderByZone(w http.ResponseWriter, r *http.Request) {

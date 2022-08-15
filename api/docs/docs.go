@@ -16,6 +16,42 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/assignments": {
+            "post": {
+                "description": "Assign a bot to an order.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "assignments"
+                ],
+                "parameters": [
+                    {
+                        "description": "Assignment",
+                        "name": "assignment",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/entity.RequestAssignment"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/entity.Assignment"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    }
+                }
+            }
+        },
         "/bots": {
             "get": {
                 "description": "Get all bots ordered by Zone.",
@@ -167,6 +203,20 @@ const docTemplate = `{
         }
     },
     "definitions": {
+        "entity.Assignment": {
+            "type": "object",
+            "properties": {
+                "assignment_date": {
+                    "type": "string"
+                },
+                "bot_id": {
+                    "type": "string"
+                },
+                "delivery_id": {
+                    "type": "string"
+                }
+            }
+        },
         "entity.Bot": {
             "type": "object",
             "properties": {
@@ -282,6 +332,17 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "zone_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "entity.RequestAssignment": {
+            "type": "object",
+            "properties": {
+                "bot_id": {
+                    "type": "string"
+                },
+                "delivery_id": {
                     "type": "string"
                 }
             }

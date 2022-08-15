@@ -1,4 +1,13 @@
 definitions:
+  entity.Assignment:
+    properties:
+      assignment_date:
+        type: string
+      bot_id:
+        type: string
+      delivery_id:
+        type: string
+    type: object
   entity.Bot:
     properties:
       id:
@@ -75,9 +84,39 @@ definitions:
       zone_id:
         type: string
     type: object
+  entity.RequestAssignment:
+    properties:
+      bot_id:
+        type: string
+      delivery_id:
+        type: string
+    type: object
 info:
   contact: {}
 paths:
+  /assignments:
+    post:
+      consumes:
+      - application/json
+      description: Assign a bot to an order.
+      parameters:
+      - description: Assignment
+        in: body
+        name: assignment
+        required: true
+        schema:
+          $ref: '#/definitions/entity.RequestAssignment'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/entity.Assignment'
+        "400":
+          description: Bad Request
+      tags:
+      - assignments
   /bots:
     get:
       description: Get all bots ordered by Zone.

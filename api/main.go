@@ -13,6 +13,10 @@ import (
 )
 
 var (
+	assignmentRepository repository.AssigmentRepository  = repository.NewAssignmentRepository()
+	assignmentService    services.AssignmentService      = services.NewAssignmentService(assignmentRepository)
+	assignmentController controller.AssignmentController = controller.NewAssignmentController(assignmentService)
+
 	deliveryRepository repository.DeliveryRepository = repository.NewDeliveryRepository()
 	deliveryService    services.DeliveryService      = services.NewDeliveryService(deliveryRepository)
 	deliverController  controller.DeliveryController = controller.NewDeliveryController(deliveryService)
@@ -38,6 +42,8 @@ func main() {
 	httpRouter.GET("/", func(w http.ResponseWriter, r *http.Request) {
 		http.Redirect(w, r, "/swagger/index.html", 302)
 	})
+
+	httpRouter.POST("/assignments", assignmentController.AssignBotToDelivery)
 
 	httpRouter.GET("/deliveries", deliverController.GetAllDeliveries)
 	httpRouter.GET("/deliveries/{id}", deliverController.GetDelivery)
