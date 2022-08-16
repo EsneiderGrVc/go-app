@@ -3,11 +3,9 @@ package repository
 import (
 	"context"
 	"log"
-	"time"
 
 	"cloud.google.com/go/firestore"
 	"github.com/EsneiderGrVc/go_server/entity"
-	"github.com/google/uuid"
 	"google.golang.org/api/iterator"
 	"google.golang.org/api/option"
 )
@@ -35,13 +33,6 @@ func (*deliveryRepo) Save(delivery *entity.Delivery) (*entity.Delivery, error) {
 	}
 
 	defer client.Close()
-
-	if len(delivery.Id) == 0 {
-		delivery.Id = uuid.Must(uuid.NewRandom()).String()
-	}
-	if len(delivery.CreationDate) == 0 {
-		delivery.CreationDate = time.Now().Format("2006-01-02T15:04:05Z07:00")
-	}
 
 	_, _, err = client.Collection(deliveriesCollection).Add(ctx, map[string]interface{}{
 		"id":            delivery.Id,

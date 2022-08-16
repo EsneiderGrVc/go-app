@@ -4,10 +4,13 @@ import (
 	"encoding/json"
 	"log"
 	"net/http"
+	"time"
 
 	"github.com/EsneiderGrVc/go_server/entity"
 	"github.com/EsneiderGrVc/go_server/errors"
 	"github.com/EsneiderGrVc/go_server/services"
+	"github.com/EsneiderGrVc/go_server/validators"
+	"github.com/google/uuid"
 	"github.com/gorilla/mux"
 )
 
@@ -79,10 +82,25 @@ func (*controller) GetAllDeliveries(w http.ResponseWriter, r *http.Request) {
 func (*controller) CreateDelivery(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	var delivery entity.Delivery
+
 	err := json.NewDecoder(r.Body).Decode(&delivery)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		json.NewEncoder(w).Encode(errors.ServiceError{Message: "Error unmarshalling data"})
+		return
+	}
+
+	if len(delivery.Id) == 0 {
+		delivery.Id = uuid.Must(uuid.NewRandom()).String()
+	}
+	if len(delivery.CreationDate) == 0 {
+		delivery.CreationDate = time.Now().Format("2006-01-02T15:04:05Z07:00")
+	}
+
+	vError := validators.NewValidator().ValidateDelivery(&delivery)
+	if vError != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		json.NewEncoder(w).Encode(errors.ServiceError{Message: vError.Error()})
 		return
 	}
 

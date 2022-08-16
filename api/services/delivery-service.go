@@ -12,7 +12,6 @@ type DeliveryService interface {
 	CreateDelivery(delivery *entity.Delivery) (*entity.Delivery, error)
 	GetAllDeliveries() ([]map[string]interface{}, error)
 	GetDeliveryById(id string) (map[string]interface{}, error)
-	// DeleteDocument(post *entity.Delivery) (*entity.Delivery, error)
 }
 
 var deliveryRepo repository.DeliveryRepository
@@ -45,7 +44,3 @@ func (*service) CreateDelivery(delivery *entity.Delivery) (*entity.Delivery, err
 func (*service) GetAllDeliveries() ([]map[string]interface{}, error) {
 	return deliveryRepo.GetAll()
 }
-
-// func (*service) DeleteDocument(post *entity.Delivery) (*entity.Delivery, error) {
-// 	return repo.DeleteDocument(post)
-// }
